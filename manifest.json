@@ -1,0 +1,32 @@
+{
+  "AppName": {
+    "en": "KEXP Song of the Day"
+  },
+  "BundleIdentifier": "kexpsotd",
+  "AppDescription": {
+    "en": "The most recent KEXP songs of the day."
+  },
+  "AppIcon": {
+    "36x18": "img/icons/icon-36x18.png",
+    "64x64": "img/icons/icon-64x64.png",
+    "128x128": "img/icons/icon-128x128.png",
+    "300x300": "img/icons/icon-300x300.png"
+  },
+  "BundleType": "Application",
+  "BundleVersion": "0.0.1",
+  "Dependencies": {
+    "api": "1.38.0",
+    "views": "1.18.1"
+  },
+  "RequiredInterface": 1,
+  "RequiredPermissions": [
+    "http://feeds.kexp.org/"
+  ],
+  "SupportedDeviceClasses": [
+    "Desktop"
+  ],
+  "SupportedLanguages": [
+    "en"
+  ],
+  "VendorIdentifier": "us.z4c"
+}
