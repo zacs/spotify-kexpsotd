@@ -1,7 +1,8 @@
 require([
     '$api/models',
+    '$api/search',
     '$views/list#List'
-  ], function(models, List) {
+  ], function(models, search, List) {
 
   function htmlEscape(str) {
     return String(str)
@@ -21,8 +22,13 @@ require([
       .replace('&gt;', '>');
   }
 
-  function createList() {
-    // create spotify list object
+  function constructSearchTerm(str) {
+    return 'artist:"' + str.split(' - ')[0] + '" title:"' + str.split(' - ')[1] + '"';
+  }
+
+  function createList(trackUriArray) {
+    // create spotify Collection object
+    var playlist = models.Playlist.createTemporary('kexpsotd');
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://feeds.kexp.org/kexp/songoftheday');
     xhr.onreadystatechange = function () {
@@ -31,18 +37,20 @@ require([
       rawEntries.shift();
       rawEntries.forEach(function(entry) {
         foo = htmlUnescape(entry.split('<title>')[1].split('</title>')[0]);
-        console.log(foo);
+        console.log(constructSearchTerm(foo));
+        var mySearch = search.Search.search(constructSearchTerm(foo));
+        console.log(mySearch);
+        // do spotify fuzzy search for entry.title
+        // add top result to list
       });
-      // do spotify fuzzy search for entry.title
-      // add top result to list
     }
-    // make sure list is in right order (probably need to reverse)
-    // return list
+    // make sure list is in right order (probably need to reverse?)
     xhr.send(null); // is this necessary?
 
     // for testing below...
     var playlist = models.Playlist.fromURI('spotify:user:billboard.com:playlist:6UeSakyzhiEt4NB3UAd6NQ');
     var list = List.forPlaylist(playlist);
+    //var myCollection = models.Collection.
     // var list = List.forCollection();
     return list;
   }
