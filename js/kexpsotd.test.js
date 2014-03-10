@@ -37,8 +37,7 @@ require([
   // Build playlist view
   function buildList(trackURIArray) {
     var arr = trackURIArray;
-    var tracksDiv = document.getElementById('loading');
-    var throbber = Throbber.forElement(tracksDiv);
+    var throbber = Throbber.forElement(document.getElementById('loading'));
     models.Playlist
       .createTemporary("kexpsotd" + new Date().getTime())
       .done(function (playlist) {
@@ -51,7 +50,7 @@ require([
 
             document.getElementById('playlist-player').appendChild(list.node);
             list.init();
-            console.log(availableSongs + ' out of ' + totalSongs + ' available on Spotify.')
+            document.getElementById('stats').innerHTML = availableSongs + ' out of ' + totalSongs + ' available on Spotify.';
           });
         });
       });
@@ -65,13 +64,11 @@ require([
 
     mySearch.tracks.snapshot(0, 1).done(function(snapshot) {
       console.log('Found', snapshot.length, 'result(s) for', mySearch.query);
+      if (snapshot.length>0) {availableSongs++;}
       snapshot.loadAll().done(function(tracks) {
         promise.setDone(tracks[0]);
-        availableSongs++;
-        totalSongs++;
       }).fail(function (f) {
         promise.setFail(f);
-        totalSongs++;
       });
     });
 
@@ -97,6 +94,7 @@ require([
       var promises = [];
 
       for (var i = 0; i < kexpTracks.length; i++) {
+        totalSongs++;
         var promise = getTrackFromSearch(kexpTracks[i]);
         promises.push(promise);
       }
