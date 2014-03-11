@@ -37,7 +37,6 @@ require([
   // Build playlist view
   function buildList(trackURIArray) {
     var arr = trackURIArray;
-    var throbber = Throbber.forElement(document.getElementById('loading'));
     models.Playlist
       .createTemporary("kexpsotd" + new Date().getTime())
       .done(function (playlist) {
@@ -54,7 +53,6 @@ require([
           });
         });
       });
-    throbber.hide();
   }
 
   // Get top search results for track
@@ -80,6 +78,10 @@ require([
     var xhr = new XMLHttpRequest();
     var kexpTracks = [];
     var rawEntries, song;
+
+    // Create throbber to indicate loading
+    var throbber = Throbber.forElement(document.getElementById('playlist-player'));
+
     xhr.open('GET', feed_uri);
     xhr.onreadystatechange = function () {
       if (xhr.readyState != 4 || xhr.status != 200) return;
@@ -107,6 +109,11 @@ require([
           console.error('Failed to load at least one track.', tracks);
         })
         .always(function (tracks) {
+          // Hide throbber now that the join has completed
+          // (Building the list doesn't take very long at all,
+          // so hiding the throbber pre-build seems better)
+          throbber.hide();
+
           // filter out results from failed promises
           buildList(tracks.filter(function(t) {
             return t !== undefined;
