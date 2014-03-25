@@ -8,7 +8,7 @@ Note: About a week after I finished this app, Spotify has discontinued their loc
 Installation
 ------------
 
-Note: In order to use the app, you may need to be (registered as a Spotify developer)[https://developer.spotify.com/my-account]. I haven't been able to verify this yet, but will update the README when I have. 
+Note: In order to use the app, you may need to be [registered as a Spotify developer](https://developer.spotify.com/my-account). I haven't been able to verify this yet, but will update the README when I have. 
 
 1. Create a `Spotify` folder in your home directory (Mac) or in your Documents folder (Windows).
 2. Navigate to that folder in your shell (Terminal.app on Mac or cmd.exe on Windows)
